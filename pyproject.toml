@@ -1,0 +1,117 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "MarkovDayflow"
+version = "1.0.0"
+description = "A flexible focus scheduler that learns your work patterns using Markov chains"
+authors = [
+    {name = "Kakudou", email = "contact@kakudou.org"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["productivity", "scheduling", "markov-chains", "time-management", "focus"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Office/Business :: Scheduling",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "PyYAML>=6.0",
+    "click>=8.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/kakudou/MarkovDayflow"
+Repository = "https://github.com/kakudou/MarkovDayflow"
+Issues = "https://github.com/kakudou/MarkovDayflow/issues"
+
+[project.scripts]
+MarkovDayflow = "markov_dayflow.adapters.cli.main:cli"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "black>=23.0",
+    "isort>=5.12",
+    "flake8>=6.0",
+    "mypy>=1.0",
+    "types-PyYAML>=6.0",
+]
+
+[tool.poetry]
+packages = [{include = "markov_dayflow"}]
+include = [
+    "markov_dayflow/infrastructure/config/*.yaml",
+]
+
+[tool.poetry.scripts]
+MarkovDayflow = "markov_dayflow.adapters.cli.main:cli"
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["markov_dayflow"]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "-v"
+]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+ignore_missing_imports = false
+
+[[tool.mypy.overrides]]
+module = ["yaml.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["click.*"]
+ignore_missing_imports = true

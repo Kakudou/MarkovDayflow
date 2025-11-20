@@ -1,0 +1,20 @@
+__pycache__/
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+wheels/
+*.egg-info/
+*.egg
+MANIFEST
+poetry.lock
+.cache
+.pytest_cache/
+.env
+.venv
+.ropeproject
+.mypy_cache/
+
+# Markov Dayflow specific data files
+data/

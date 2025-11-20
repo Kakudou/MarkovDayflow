@@ -1,0 +1,69 @@
+# Markov Dayflow Configuration - Flexible Block Management System
+# Configurable for any number of focus blocks per day
+#
+# This system adapts to YOUR workflow:
+# - 2 blocks: Simple morning/afternoon split
+# - 5 blocks: Default balanced system with chaos handling (shown below)
+# - 6 blocks: More granular time management
+# - 8 blocks: Hourly block system
+#
+# The Markov chain learning adapts to whatever structure you choose!
+
+# Number of focus blocks per day (must match number of blocks in block_config)
+blocks_per_day: 5
+
+# Target weekly distribution of work
+targets:
+  Feature: 0.30
+  Bug: 0.15
+  R&D: 0.15
+  Docs: 0.10
+  Review: 0.10
+  Support: 0.05
+  Urgent: 0.05
+  Chaos: 0.10
+
+# Markov chain parameters
+weekly_decay: 0.85 # How fast old patterns fade
+laplace: 1.5 # Smoothing to prevent rigid patterns
+ratio_bias_alpha: 1.2 # How strongly to correct weekly balance
+
+# Scoring parameters
+beta: 0.3 # Difficulty penalty factor
+gamma: 0.6 # Deadline urgency bonus
+
+# Block-specific configuration
+# You can define any number of blocks here to match blocks_per_day
+work_start_time: "09:00"
+block_config:
+  1:
+    name: "High Focus Block"
+    duration_hours: 2.0
+    preferred_buckets: ["Feature", "R&D"]
+    avoid_buckets: ["Support", "Urgent", "Chaos"]
+  2:
+    name: "Mid Focus Block"
+    duration_hours: 1.5
+    preferred_buckets: ["Feature", "Bug", "Review"]
+    avoid_buckets: ["Chaos"]
+  3:
+    name: "Light Focus Block"
+    duration_hours: 1.0
+    preferred_buckets: ["Review", "Docs", "Bug"]
+    avoid_buckets: ["Feature", "Chaos"]
+  4:
+    name: "Small Focus Block"
+    duration_hours: 1.0
+    preferred_buckets: ["Support", "Review", "Docs"]
+    avoid_buckets: ["Feature", "R&D", "Chaos"]
+  5:
+    name: "Chaos Block"
+    duration_hours: 2.0
+    preferred_buckets: ["Chaos", "Support", "Urgent"]
+    avoid_buckets: []
+
+# Preemption settings
+urgent_threshold: 3.5
+support_threshold: 4.5
+support_budget: 1
+allow_support_preempt: true
