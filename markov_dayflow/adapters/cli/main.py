@@ -49,7 +49,6 @@ def show_default_status() -> None:
                 config_path=str(config_path),
                 output_path=str(plan_path),
                 date=status_date,
-                random_seed=None,
             )
 
             click.echo(f"[OK] Plan generated for {status_date}")
