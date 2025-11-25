@@ -349,17 +349,13 @@ class PlanGenerationUseCase:
         self, tasks: list[Task], date: str, used_tasks: set[int]
     ) -> list[Task]:
         """Get tasks available for planning on given date."""
-        available = []
-        for task in tasks:
-            if task.status == "done":
-                continue
-            if task.planned_date is not None and task.planned_date != date:
-                continue
-            if task.id in used_tasks:
-                continue
-            if task.status in ["todo", "wip", "planned"]:
-                available.append(task)
-        return available
+        return [
+            task
+            for task in tasks
+            if task.status != "done"
+            and task.id not in used_tasks
+            and task.status in ["todo", "wip", "planned"]
+        ]
 
     def _load_or_create_tasks(self, tasks_path: str | Path) -> list[Task]:
         """Load tasks or create empty task file."""
